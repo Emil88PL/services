@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class PersonController<Person> {
+public class PersonController {   //<Person> {
 
     private List<Person> people = new ArrayList<>();
 
