@@ -2,36 +2,60 @@ package com.example.services.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 @Service
 public class PersonService {
-    private List<Person> people = new ArrayList<>();
+
+
+    // private List<Person> people = new ArrayList<>();
+
+    private PersonRepo repo;
+
+    public PersonService(PersonRepo repo) {
+        super();
+        this.repo = repo;
+    }
+
+
+
+
 
     public Person addPerson(Person person) {
-        // Add new Person
-        this.people.add(person);
-        // Return last added Person from List
-        return this.people.get(this.people.size() - 1);
+        return this.repo.save(person);
     }
 
-    public List<Person> getAllPeople() {
-        // Return the whole List
-        return this.people;
+
+
+     public List<Person> getAllPeople() {
+        return this.repo.findAll();
     }
 
-    public Person updatePerson(int id, Person person) {
-        // Remove existing Person with matching 'id'
-        this.people.remove(id);
-        // Add new Person in its place
-        this.people.add(id, person);
-        // Return updated Person from List
-        return this.people.get(id);
+
+
+
+
+    public Person updatePerson(Long id, Person newPerson) {
+        Optional<Person> existingOptional = this.repo.findById(id);
+        Person existing = existingOptional.get();
+
+        existing.setAge(newPerson.getAge());
+        existing.setName(newPerson.getName());
+
+        return this.repo.save(existing);
     }
 
-    public Person removePerson(int id) {
-        // Remove Person and return it
-        return this.people.remove(id);
+
+
+
+    public boolean removePerson(Long id) {
+        // removes the entity
+        this.repo.deleteById(id);
+        // checks to see if it still exists
+        boolean exists = this.repo.existsById(id);
+        // returns true if entity no longer exists
+        return !exists;
     }
 }

@@ -43,12 +43,12 @@ public class PersonController {   //<Person> {
     }
 
     @PutMapping("/update")
-    public Person updatePerson(@PathParam("id") int id, @RequestBody Person person) {
+    public Person updatePerson(@PathParam("id") Long id, @RequestBody Person person) {
         return this.service.updatePerson(id, person);
     }
 
     @DeleteMapping("/delete/{id}")
-    public Person removePerson(@PathVariable int id) {
+    public boolean removePerson(@PathVariable Long id) {
         return this.service.removePerson(id);
     }
 
