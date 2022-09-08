@@ -16,6 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PersonController {   //<Person> {
 
+
+    private PersonService service;
+
+    public PersonController(PersonService service) {
+        super();
+        this.service = service;
+    }
+
+
     private List<Person> people = new ArrayList<>();
 
     @GetMapping("/test")
@@ -23,41 +32,24 @@ public class PersonController {   //<Person> {
         return "Hello, World!";
     }
 
-       // Create
-       @PostMapping("/create")
-       public boolean addPerson(@RequestBody Person person) {
-           return this.people.add(person);
-       }
+    @PostMapping("/create")
+    public Person addPerson(@RequestBody Person person) {
+        return this.service.addPerson(person);
+    }
 
-        // READ
-        @GetMapping("/getAll")
-        public List<Person> getAll() {
-            return this.people;
-        }
+    @GetMapping("/getAll")
+    public List<Person> getAllPeople() {
+        return this.service.getAllPeople();
+    }
 
-        //Update
-        @PutMapping("/update")
-        public Person updatePerson(@PathParam("id") int id, @RequestBody Person person) {
+    @PutMapping("/update")
+    public Person updatePerson(@PathParam("id") int id, @RequestBody Person person) {
+        return this.service.updatePerson(id, person);
+    }
 
-            // Remove existing Person with matching 'id'
-            this.people.remove(id);
-
-            // Add new Person in its place
-            this.people.add(id, person);
-            
-            // Return updated Person from List
-            return this.people.get(id);
-        }
-
-        //Delete
-        @DeleteMapping("/delete/{id}")
-        public Person removePerson(@PathVariable int id) {
-            // Remove Person and return it
-            return this.people.remove(id);
-        }
-
-
-
-
+    @DeleteMapping("/delete/{id}")
+    public Person removePerson(@PathVariable int id) {
+        return this.service.removePerson(id);
+    }
 
 }
