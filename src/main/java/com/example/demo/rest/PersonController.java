@@ -1,7 +1,8 @@
-package com.example.services.services;
+package com.example.demo.rest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.websocket.server.PathParam;
 
@@ -13,9 +14,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class PersonController {   //<Person> {
+import com.example.demo.rest.PersonDTO;
+import com.example.demo.services.PersonService;
 
+
+@RestController
+public class PersonController {
 
     private PersonService service;
 
@@ -24,32 +28,29 @@ public class PersonController {   //<Person> {
         this.service = service;
     }
 
-
-    private List<Person> people = new ArrayList<>();
-
-    @GetMapping("/test")
-    public String test() {
-        return "Hello, World!";
-    }
-
     @PostMapping("/create")
-    public Person addPerson(@RequestBody Person person) {
+    public PersonDTO addPerson(@RequestBody PersonDTO person) {
         return this.service.addPerson(person);
     }
 
     @GetMapping("/getAll")
-    public List<Person> getAllPeople() {
+    public List<PersonDTO> getAllPeople() {
         return this.service.getAllPeople();
     }
 
     @PutMapping("/update")
-    public Person updatePerson(@PathParam("id") int id, @RequestBody Person person) {
+    public PersonDTO updatePerson(@PathParam("id") Long id, @RequestBody PersonDTO person) {
         return this.service.updatePerson(id, person);
     }
 
     @DeleteMapping("/delete/{id}")
-    public Person removePerson(@PathVariable int id) {
+    public boolean removePerson(@PathVariable Long id) {
         return this.service.removePerson(id);
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "Hello, World!";
     }
 
 }

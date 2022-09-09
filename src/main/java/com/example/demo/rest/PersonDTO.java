@@ -1,15 +1,28 @@
-package com.example.services.services;
+package com.example.demo.rest;
 
-public class Person {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class PersonDTO {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private long id;
    private String name;
    private int age;
 
-   public Person(){
-    super();
-   }
+//    public Person(){
+//     super();
+//    }
 
-public Person(long id, String name, int age) {
+public PersonDTO() {
+    super();
+}
+
+public PersonDTO(long id, String name, int age) {
     this.id = id;
     this.name = name;
     this.age = age;
